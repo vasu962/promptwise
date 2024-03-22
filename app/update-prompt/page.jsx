@@ -1,31 +1,20 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import { useSearchParams } from 'next/dist/client/router';
+import { useRouter, useSearchParams } from 'next/navigation';
+
 import Form from '/components/Form';
 
 const EditPrompt = () => {
   const router = useRouter();
-  const [searchParamsLoaded, setSearchParamsLoaded] = useState(false);
-  const [promptId, setPromptId] = useState(null);
+  const searchParams = useSearchParams();
+  const promptId = searchParams.get('id');
+
   const [submitting, setSubmitting] = useState(false);
   const [post, setPost] = useState({
     prompt: '',
     tag: '',
   });
-
-  useEffect(() => {
-    setSearchParamsLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    if (searchParamsLoaded) {
-      const params = new URLSearchParams(window.location.search);
-      const id = params.get('id');
-      setPromptId(id);
-    }
-  }, [searchParamsLoaded]);
 
   useEffect(() => {
     const getPromptDetails = async () => {
@@ -43,7 +32,7 @@ const EditPrompt = () => {
     e.preventDefault();
     setSubmitting(true);
 
-    if (!promptId) return alert('Prompt ID not found!');
+    if(!promptId) return alert('Prompt ID not found!')
 
     try {
       const response = await fetch(`/api/prompt/${promptId}`, {
