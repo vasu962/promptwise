@@ -5,6 +5,9 @@ import '/styles/globals.css';
 export const metadata = {
   title: 'Promptwise',
   description: 'Discover & Share AI Prompts',
+  icons: {
+    icon: '/assets/icons/logo.svg',
+  },
 };
 
 const RootLayout = ({ children }) => (
